@@ -1,0 +1,67 @@
+/*
+ * GPU acceleration for ReactFlow nodes.
+ *
+ * - `will-change: transform` promotes each node to its own GPU compositor layer,
+ *   so drag/zoom animations run entirely on the GPU without CPU repaint.
+ * - `contain: layout style` isolates layout/style of each node,
+ *   preventing sibling invalidation when a single node repaints.
+ *   NOTE: `paint` is intentionally omitted — it clips edge handles.
+ */
+.react-flow__node {
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Nodes über Edges halten — per-Edge-Hybrid (#2523):
+   - Default: Nodes liegen über den Edges (DOM-Reihenfolge: `.react-flow__nodes`
+     steht nach `.react-flow__edges`; beide ohne z-index → Nodes gewinnen).
+     Karten verdeckt Kanten (opake Basis in Canvas-Farbe).
+   - Hover einer Card: NUR die aktiven (previewed) Edges heben sich per
+     zIndex-Prop (React Flow, `useDiagramEdges`) über die Nodes — die übrigen
+     Edges bleiben unter den Nodes. Dafür darf die Edges-SVG KEINEN eigenen
+     Stacking-Context bilden (inline `z-index: 0` auf `auto` zurückgesetzt),
+     sonst könnten einzelne Edges nie über die Nodes-Schicht kommen. */
+.react-flow__nodes {
+  position: relative;
+}
+
+.react-flow__edges svg {
+  z-index: auto;
+}
+
+/* Edge Handles – default ausgeblendet, beim Hover der Node sichtbar */
+.react-flow__handle {
+  opacity: 0 !important;
+  transition: opacity 0.15s;
+}
+
+.react-flow__node:hover .react-flow__handle {
+  opacity: 1 !important;
+}
+
+/* Card-Hover-Rahmen – abgerundeter Frame um die Karte, passt zu den
+   Rounded-Corners der CardBackground (rx). Box-shadow statt outline, weil
+   outline auf transformierten/compositierten Elementen mit `contain` nicht
+   zuverlässig gerendert wird. Farbe aus `--card-status-color` (S1-Statusfarbe
+   aus der Button-Bar, gesetzt in CardNode) bei 45 % (Badge-border-α);
+   ohne Status (Default/approved) fällt sie auf Indigo (#6366f1) zurück. */
+.react-flow__node-containerCard:hover svg,
+.react-flow__node-systemCard:hover svg,
+.react-flow__node-personCard:hover svg,
+.react-flow__node-sqlTableCard:hover svg {
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--card-status-color, rgba(99, 102, 241, 0.9)) 45%, transparent);
+}
+
+/* Group resize controls – nur bei Hover/Selektion sichtbar UND interaktiv */
+.react-flow__node-group .react-flow__resize-control {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.react-flow__node-group:hover .react-flow__resize-control,
+.react-flow__node-group.selected .react-flow__resize-control {
+  opacity: 1;
+  pointer-events: auto;
+}

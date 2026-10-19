@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Lebenslauf – {{ profile.full_name if profile is defined and profile else '' }}</title>
+<style>
+  /* ── CI-Fonts (eingebettet, Kanon = Clickdummy bewerbung-cv) ── */
+  @font-face {
+    font-family: 'Geist Sans';
+    src: url("fonts/geist-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    src: url("fonts/geist-mono-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    src: url("fonts/instrument-serif-latin-400-normal.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    src: url("fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* ── Light-CI „Ivory & Ink" – CV auf weißem Papier (Print) ──
+     Hex-Kanon: Ink #14141A · Secondary #3D3D44 · Muted #5A5A62 ·
+     Gold #C9A227 · Link #8A6D1F · Salbei #4C8B63 ·
+     Border #DCD6C9 · Border-light #E8E3D9. */
+  @page {
+    size: A4;
+    margin: 2cm 2.2cm 2.5cm 2.2cm;
+    background: #FFFFFF;
+    /* Seitenfuß auf JEDER Seite: Name + Projektbezug + Seitenzahl (Zuordnung beim
+       Ausdruck, auch auf Folgeseiten). Kein Kontakt im Fuß – der steht im Kopf. */
+    @bottom-center {
+      content: "{{ profile.full_name if profile is defined and profile else '' }}{% if project is defined and project and project.reference %} · Ref {{ project.reference }}{% endif %} · Seite " counter(page) " von " counter(pages);
+      font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 8pt;
+      color: #5A5A62;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Geist Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #14141A;
+    background: #FFFFFF;
+  }
+
+  /* ══ Kopf: Dokumentlabel · Name · Rolle · Fakten · Kontakt | Porträt ══ */
+  .cv-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 50mm;
+    gap: 16pt;
+    align-items: start;
+    margin-bottom: 14pt;
+  }
+
+  .cv-header__info { min-width: 0; }
+
+  /* Zielrollen-Label – ordnet den Ausdruck der Ausschreibung zu (META-Stil = Label-Stil). */
+  .cv-meta {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 8pt;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #5A5A62;
+    margin-bottom: 5pt;
+  }
+
+  /* Name = größtes Element. Eine Familie (Geist Sans) in zwei Gewichten. */
+  .cv-name {
+    font-size: 21pt;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #14141A;
+    margin-bottom: 4pt;
+  }
+
+  /* Rolle = zweitgrößtes Element (der Name bleibt dominant). */
+  .cv-headline {
+    font-size: 11pt;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #14141A;
+    margin-bottom: 9pt;
+  }
+
+  /* Kurzprofil-Fließtext (eigener Abschnitt). */
+  .cv-story {
+    margin: 0;
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #3D3D44;
+  }
+
+  .cv-story p { margin: 0 0 4pt 0; }
+
+  .cv-photo-frame {
+    background-color: #FFFFFF;
+    border: 0.5pt solid #E8E3D9;
+    border-radius: 10px;
+    padding: 3.5mm;
+    /* Nur das Foto richtet sich in der Kopfzeile aus – die Textspalte bleibt
+       am oberen Rand (der Name darf nie verrutschen). Unterkante bündig mit
+       dem Stammdaten-Block: geteilte Kante statt zufälligem Überhang. */
+    align-self: end;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-photo {
+    display: block;
+    width: 100%;
+    height: 57.33mm; /* 43 mm breit (50 − 2×3.5) · 3:4 */
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
+  /* ══ Sections ═══════════════════════════════════════════════════════ */
+  .cv-section { margin-bottom: 11pt; }
+
+  /* Section-Titel = Body-Familie, near-black, ohne Präfix/Deko (ATS: Pattern-Matching). */
+  .cv-section-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #14141A;
+    border-bottom: 0.75pt solid #E8E3D9;
+    padding-bottom: 2pt;
+    margin-bottom: 3pt;
+  }
+
+  /* ── Einheitliches Label-/META-System (Mono, muted) ──
+     Dokumentlabel sowie Fakten-/Kontakt-Labels nutzen denselben Stil. */
+  .cv-label {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 8pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #5A5A62;
+  }
+
+  /* ── Skills: gruppierte ATS-Klartext-Liste als Label/Wert-Grid ──
+     Gleiche Formation wie die Stammdaten: Mono-Label links, Wert bündig rechts.
+     Reiner Text – keine Badges/Icons/Tabellen, damit Parser die Namen lesen. */
+  .cv-skills {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 3pt 0;
+  }
+
+  .cv-skills__value {
+    font-size: 9.5pt;
+    color: #14141A;
+    padding-left: 12pt;
+  }
+
+  /* ── Stammdaten im Kopf: Fakten + Kontakt in EINEM Definition-Grid ──
+     Eine Labelspalte für ALLE Zeilen → gleiche Breite und bündige Wertespalte.
+     Spalten-Gap 0, dafür padding-left am Wert → die Gruppen-Trennlinie läuft durch. */
+  .cv-conditions {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 3pt 0;
+    margin-bottom: 9pt;
+  }
+
+  .cv-conditions__value {
+    font-size: 9.5pt;
+    color: #14141A;
+    padding-left: 12pt;
+  }
+
+  .cv-conditions__value a {
+    color: #8A6D1F;
+    text-decoration: none;
+  }
+
+  /* Gruppen-Abstand zwischen Fakten und Kontakt – reine Leerzeile statt Linie:
+     eine Regel kann dem Inhalt nicht folgen und quert sonst nur Leerraum. */
+  .cv-conditions__spacer { height: 7pt; }
+
+  /* ── Ein Link je Sektion (statt Links pro Eintrag) ── */
+  .cv-section-link {
+    margin-top: 4pt;
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 7.5pt;
+    color: #5A5A62;
+  }
+
+  .cv-section-link a {
+    color: #8A6D1F;
+    text-decoration: none;
+  }
+
+  /* Letztes Element im Kopf trägt keinen Zusatzabstand (Abstand regelt .cv-header). */
+  .cv-header__info > *:last-child { margin-bottom: 0; }
+
+  /* ── Experience: je Projekt ein atomarer Block ──
+     Kopf (Rolle · Kontext · Zeitraum) oben, darunter die Textblöcke im
+     Mono-Label/Wert-Grid (gleiche Formation wie die Stammdaten). */
+  .cv-entry {
+    margin-bottom: 11pt;
+  }
+
+  .cv-entry:last-child { margin-bottom: 0; }
+
+  /* Erstes Sammelprojekt (4. Eintrag) beginnt auf einer neuen Seite: die 3 Key-Projekte
+     bekommen je eine Seite, die beiden Sammelprojekte teilen sich die letzte Seite. */
+  .cv-entry--page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .cv-entry__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 6pt;
+    margin-bottom: 3pt;
+  }
+
+  .cv-entry__position {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #14141A;
+  }
+
+  .cv-entry__meta {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 8pt;
+    color: #5A5A62;
+  }
+
+  .cv-entry__blocks {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 1pt 0;
+  }
+
+  .cv-entry__value {
+    font-size: 9.5pt;
+    color: #14141A;
+    padding-left: 12pt;
+  }
+
+  .cv-entry__value a {
+    color: #8A6D1F;
+    text-decoration: none;
+  }
+
+  .cv-entry__list {
+    margin: 0;
+    padding-left: 12pt;
+    list-style: disc;
+  }
+
+  .cv-entry__list li { margin-bottom: 1pt; }
+
+  .cv-entry__list li:last-child { margin-bottom: 0; }
+
+  .cv-entry__discarded {
+    color: #5A5A62;
+    font-size: 8.5pt;
+  }
+
+  /* ── Print / Umbruch-Steuerung ── */
+  @media print {
+    /* Atomare Blöcke nie zerreißen */
+    .cv-header,
+    .cv-photo-frame,
+    .cv-conditions,
+    .cv-entry {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    /* Sektion bleibt zusammen: ganz auf der Seite oder ganz auf die nächste. */
+    .cv-section {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    /* Überschrift bleibt beim Inhalt. */
+    .cv-section-title,
+    .cv-header {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    /* Keine einzelne Zeile am Seitenrand. */
+    .cv-story p {
+      orphans: 3;
+      widows: 3;
+    }
+  }
+</style>
+</head>
+<body>
+{% set p = profile if profile is defined and profile is not none else {} %}
+{% set langs = languages if languages is defined and languages else [] %}
+{% set experiences = experiences if experiences is defined and experiences else [] %}
+{% set photo = photo_data_uri if photo_data_uri is defined and photo_data_uri else none %}
+{% set pid = project_id if project_id is defined and project_id else none %}
+{% set proj = project if project is defined and project else {} %}
+{% set groups = skill_groups if skill_groups is defined and skill_groups else [] %}
+{% set has_facts = p.location or p.remote or p.contract_type or p.available_from or p.hourly_rate %}
+{% set has_contact = p.phone or p.email or p.website_url or p.github_url or p.linkedin_url %}
+
+<!-- ═══ Zielrolle (volle Zeile) – bricht so nicht um ═══
+     Kanon = Referenz (öffentliche freelancermap-ID) + kuratierter Titel
+     (``title_normalized``, identisch zum Mail-Betreff-Rollen-Segment); Fallback auf den
+     Roh-Titel, falls noch nicht kuratiert. Die Referenz erscheint zusätzlich im Seitenfuß.
+     Kein „Lebenslauf“-Label: Dokumenttyp steht im PDF-Titel/Dateinamen. -->
+{% if proj.reference or proj.title_normalized or proj.title %}
+<div class="cv-meta">{% if proj.reference %}{{ proj.reference }} – {% endif %}{{ proj.title_normalized or proj.title }}</div>
+{% endif %}
+
+<!-- ═══ Kopf: Name · Rolle · Stammdaten | Porträt ═══ -->
+<div class="cv-header">
+  <div class="cv-header__info">
+    <div class="cv-name">{{ p.full_name or '' }}</div>
+    {% if p.headline %}
+    <div class="cv-headline">{{ p.headline }}</div>
+    {% endif %}
+    {% if has_facts or has_contact %}
+    <div class="cv-conditions">
+      {% if p.location %}
+      <div class="cv-label">Standort</div>
+      <div class="cv-conditions__value">{{ p.location }}</div>
+      {% endif %}
+      {% if p.remote %}
+      <div class="cv-label">Remote/Onsite</div>
+      <div class="cv-conditions__value">{{ p.remote }}</div>
+      {% endif %}
+      {% if p.contract_type %}
+      <div class="cv-label">Einsatzform</div>
+      <div class="cv-conditions__value">{{ p.contract_type }}</div>
+      {% endif %}
+      {% if p.available_from %}
+      <div class="cv-label">Verfügbar ab</div>
+      <div class="cv-conditions__value">{{ p.available_from }}</div>
+      {% endif %}
+      {% if p.hourly_rate %}
+      <div class="cv-label">Stundensatz</div>
+      <div class="cv-conditions__value">{{ p.hourly_rate }}</div>
+      {% endif %}
+      {% if has_facts and has_contact %}
+      <div class="cv-conditions__spacer"></div>
+      <div class="cv-conditions__spacer"></div>
+      {% endif %}
+      {% if p.phone or p.email %}
+      <div class="cv-label">Telefon / E-Mail</div>
+      <div class="cv-conditions__value">{% if p.phone %}<a href="tel:{{ p.phone | replace(' ', '') }}">{{ p.phone }}</a>{% endif %}{% if p.phone and p.email %} &middot; {% endif %}{% if p.email %}<a href="mailto:{{ p.email }}">{{ p.email }}</a>{% endif %}</div>
+      {% endif %}
+      {% if p.website_url or p.github_url or p.linkedin_url %}
+      <div class="cv-label">Web / Profil</div>
+      <div class="cv-conditions__value">{% if p.website_url %}<a href="{{ p.website_url if p.website_url.startswith('http') else 'https://' ~ p.website_url }}">{{ p.website_url | replace('https://', '') | replace('http://', '') | trim('/') }}</a>{% endif %}{% if p.website_url and (p.github_url or p.linkedin_url) %} &middot; {% endif %}{% if p.github_url %}<a href="{{ p.github_url if p.github_url.startswith('http') else 'https://' ~ p.github_url }}">GitHub</a>{% endif %}{% if p.github_url and p.linkedin_url %} &middot; {% endif %}{% if p.linkedin_url %}<a href="{{ p.linkedin_url if p.linkedin_url.startswith('http') else 'https://' ~ p.linkedin_url }}">LinkedIn</a>{% endif %}</div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% if photo %}
+  <div class="cv-photo-frame">
+    <img class="cv-photo" src="{{ photo }}" alt="Bewerbungsfoto"/>
+  </div>
+  {% endif %}
+</div>
+
+<!-- ═══ Kurzprofil (Executive Summary) ═══ -->
+{% if story %}
+<div class="cv-section">
+  <div class="cv-section-title">Summary</div>
+  <div class="cv-story">
+    {% for para in story.split('\n') %}
+    {% if para.strip() %}<p>{{ para | trim | md_bold }}</p>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ═══ Skills (gruppierte Klartext-Liste) ═══
+     Nur Klartext: maschinell lesbar (ATS). Keine Grafik/Badges – Parser droppen Visuelles. -->
+<div class="cv-section">
+  <div class="cv-section-title">Skills (Auszug)</div>
+  {% if groups or langs %}
+  <div class="cv-skills">
+    {% for group in groups %}
+    <div class="cv-label">{{ group.label }}</div>
+    <div class="cv-skills__value">{{ group.skills | join(', ') }}</div>
+    {% endfor %}
+    {% if langs %}
+    <div class="cv-label">Sprachen</div>
+    <div class="cv-skills__value">{{ langs | join(' / ') }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+  <p class="cv-section-link">Alle Skills: <a href="https://www.gjo-se.com/skills{% if pid %}/{{ pid }}{% endif %}">www.gjo-se.com/skills{% if pid %}/{{ pid }}{% endif %}</a></p>
+</div>
+
+<!-- ═══ Experience (Projektliste, je Eintrag ein atomarer Block) ═══
+     Firma (company) ist intern-only und wird hier bewusst NICHT gerendert.
+     Leere Felder entfallen; jede Information in eigenem Element (ATS-freundlich). -->
+{% if experiences %}
+<div class="cv-section">
+  <div class="cv-section-title">Experience</div>
+  {% for entry in experiences %}
+  <div class="cv-entry{% if loop.index == 4 %} cv-entry--page-break{% endif %}">
+    <div class="cv-entry__head">
+      <span class="cv-entry__position">{{ entry.position }}</span>
+      {% if entry.context %}<span class="cv-entry__meta">{{ entry.context }}</span>{% endif %}
+      {% if entry.period %}<span class="cv-entry__meta">{{ entry.period }}</span>{% endif %}
+    </div>
+    {% if entry.outcome or entry.problem or entry.scope or entry.solution_what or entry.decisions or entry.tech_stack or entry.proofs or entry.evidence or entry.project_url %}
+    <div class="cv-entry__blocks">
+      {% if entry.outcome %}
+      <div class="cv-label">Ergebnis</div>
+      <div class="cv-entry__value">{{ entry.outcome }}</div>
+      {% endif %}
+      {% if entry.problem %}
+      <div class="cv-label">Problem</div>
+      <div class="cv-entry__value">{{ entry.problem }}</div>
+      {% endif %}
+      {% if entry.scope %}
+      <div class="cv-label">Umfang</div>
+      <div class="cv-entry__value">{{ entry.scope }}</div>
+      {% endif %}
+      {% if entry.solution_what %}
+      <div class="cv-label">Lösung</div>
+      <div class="cv-entry__value">{{ entry.solution_what }}</div>
+      {% endif %}
+      {% if entry.decisions %}
+      <div class="cv-label">Entscheidungen</div>
+      <div class="cv-entry__value">
+        <ul class="cv-entry__list">
+          {% for decision in entry.decisions %}
+          <li>{% if decision.title %}<strong>{{ decision.title }}</strong>{% endif %}{% if decision.title and decision.body %} – {% endif %}{{ decision.body or '' }}{% if decision.discarded %} <span class="cv-entry__discarded">(verworfen: {{ decision.discarded }})</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if entry.tech_stack %}
+      <div class="cv-label">Tech</div>
+      <div class="cv-entry__value">{{ entry.tech_stack }}</div>
+      {% endif %}
+      {% if entry.proofs %}
+      <div class="cv-label">Belege</div>
+      <div class="cv-entry__value">
+        <ul class="cv-entry__list">
+          {% for proof in entry.proofs %}
+          <li>{{ proof.text or '' }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if entry.evidence %}
+      <div class="cv-label">Nachweise</div>
+      <div class="cv-entry__value">{{ entry.evidence }}</div>
+      {% endif %}
+      {% if entry.project_url %}
+      <div class="cv-label">Projekt</div>
+      <div class="cv-entry__value"><a href="{{ entry.project_url if entry.project_url.startswith('http') else 'https://' ~ entry.project_url }}">{{ entry.project_url | replace('https://', '') | replace('http://', '') | trim('/') }}</a></div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,2665 @@
+{
+  "schema_version": 1,
+  "source_commit": "a9ee4004dbc266a42943f682409da6b1377b7bf2",
+  "source_ref": "HEAD",
+  "commit_time": "2026-10-19T09:12:21Z",
+  "tool_version": "1",
+  "metrics_version": "3",
+  "manifest_version": "1",
+  "generated_by": "code-health-metrics",
+  "prose": {
+    "de": {
+      "version": 4,
+      "sha256": "8b36b5c5cb3e158eba99014ad3a88534a54a5ee6d749b4610e1e250deca1a8d6",
+      "head_sha256": "d8d75af9b487bb878b6d9bfdca36c9cfa607266f89d28b12a739fd9ce0134cc1"
+    },
+    "en": {
+      "version": 3,
+      "sha256": "3d30d6c75424a51ae2ef271aa28178c5cd6a4a12cd9780b1af565ebdbbf3f884",
+      "head_sha256": "55f98a777d11d3cbb9d5b9183cc080e66b1761e6a418c7bcfb5457ba7775c3c0"
+    }
+  },
+  "metrics": [
+    {
+      "key": "lines_of_code",
+      "order": 10,
+      "label": {
+        "de": "Codezeilen",
+        "en": "Lines of Code"
+      },
+      "target": "—",
+      "unit": "loc",
+      "explanation": {
+        "de": "Lines of Produktionscode",
+        "en": "Lines of production code"
+      },
+      "fe": {
+        "value": 76566,
+        "status": "no-target",
+        "scope": "frontend/src"
+      },
+      "be": {
+        "value": 50547,
+        "status": "no-target",
+        "scope": "backend/app"
+      }
+    },
+    {
+      "key": "test_lines",
+      "order": 20,
+      "label": {
+        "de": "Tests",
+        "en": "Tests"
+      },
+      "target": "—",
+      "unit": "loc",
+      "explanation": {
+        "de": "Lines of Testcode",
+        "en": "Lines of test code"
+      },
+      "fe": {
+        "value": 41692,
+        "status": "no-target",
+        "scope": "frontend/tests"
+      },
+      "be": {
+        "value": 39974,
+        "status": "no-target",
+        "scope": "backend/tests"
+      }
+    },
+    {
+      "key": "effort",
+      "order": 30,
+      "label": {
+        "de": "Aufwand",
+        "en": "Effort"
+      },
+      "target": "—",
+      "unit": "pj",
+      "explanation": {
+        "de": "Vergleichsäquivalent Neubau · Prod 20 min/LOC + Tests 10 min/LOC (Punktwert, ±Schätzung)",
+        "en": "new-build equivalent · prod 20 min/LOC + tests 10 min/LOC (point estimate, ±uncertainty)"
+      },
+      "fe": {
+        "value": 17.801900584795323,
+        "status": "no-target"
+      },
+      "be": {
+        "value": 12.889985380116958,
+        "status": "no-target"
+      }
+    },
+    {
+      "key": "rules",
+      "order": 35,
+      "label": {
+        "de": "Regeln",
+        "en": "Rules"
+      },
+      "target": "—",
+      "unit": "count",
+      "explanation": {
+        "de": "Verteilung nach Engine",
+        "en": "Breakdown by engine"
+      },
+      "fe": {
+        "value": 211,
+        "status": "no-target",
+        "scope": "frontend",
+        "breakdown": [
+          {
+            "label": "ESLint",
+            "value": 172
+          },
+          {
+            "label": "Custom",
+            "value": 39
+          }
+        ]
+      },
+      "be": {
+        "value": 465,
+        "status": "no-target",
+        "scope": "backend",
+        "breakdown": [
+          {
+            "label": "Ruff",
+            "value": 405
+          },
+          {
+            "label": "Custom",
+            "value": 60
+          }
+        ]
+      },
+      "global": {
+        "value": 17,
+        "status": "no-target",
+        "breakdown": [
+          {
+            "label": "Semgrep",
+            "value": 14
+          },
+          {
+            "label": "Custom",
+            "value": 3
+          }
+        ]
+      }
+    },
+    {
+      "key": "dead_code",
+      "order": 40,
+      "label": {
+        "de": "Dead Code",
+        "en": "Dead Code"
+      },
+      "target": "0",
+      "unit": "count",
+      "explanation": {
+        "de": "ungenutzter Code",
+        "en": "unused code"
+      },
+      "fe": {
+        "value": 0,
+        "status": "green"
+      },
+      "be": {
+        "value": 0,
+        "status": "green"
+      }
+    },
+    {
+      "key": "god_files",
+      "order": 50,
+      "label": {
+        "de": "God Files",
+        "en": "God Files"
+      },
+      "target": "0",
+      "unit": "count",
+      "explanation": {
+        "de": "Datei > 500 LOC",
+        "en": "File > 500 LOC"
+      },
+      "fe": {
+        "value": 0,
+        "status": "green"
+      },
+      "be": {
+        "value": 0,
+        "status": "green"
+      }
+    },
+    {
+      "key": "srp",
+      "order": 60,
+      "label": {
+        "de": "SRP",
+        "en": "SRP"
+      },
+      "target": "0",
+      "unit": "count",
+      "explanation": {
+        "de": "LCOM4 ≥ 2 · custom Check (Klasse/Modul)",
+        "en": "LCOM4 ≥ 2 · custom check (class/module)"
+      },
+      "fe": {
+        "value": 0,
+        "status": "green"
+      },
+      "be": {
+        "value": 0,
+        "status": "green"
+      }
+    },
+    {
+      "key": "dry",
+      "order": 70,
+      "label": {
+        "de": "DRY",
+        "en": "DRY"
+      },
+      "target": "≤ 3 %",
+      "unit": "percent",
+      "explanation": {
+        "de": "doppelter Code",
+        "en": "duplicated code"
+      },
+      "fe": {
+        "value": 0.6,
+        "status": "green"
+      },
+      "be": {
+        "value": 0.8,
+        "status": "green"
+      }
+    },
+    {
+      "key": "debt_ratio",
+      "order": 80,
+      "label": {
+        "de": "Debt Ratio",
+        "en": "Debt Ratio"
+      },
+      "target": "≤ 5 %",
+      "unit": "percent",
+      "explanation": {
+        "de": "Behebungskosten ÷ Aufwand · Rating A = ≤ 5 %",
+        "en": "remediation cost ÷ development cost · Rating A = ≤ 5 %"
+      },
+      "fe": {
+        "value": 0.1,
+        "status": "green"
+      },
+      "be": {
+        "value": 0.2,
+        "status": "green"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "row_key": "ruff-format",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Format",
+        "en": "Format"
+      },
+      "target": "grün",
+      "hooks": [
+        "ruff-format"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "ruff-format"
+      ],
+      "family": null,
+      "scope": "backend",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Ruff-Formatierung BE (Autofix)",
+        "en": "Format"
+      }
+    },
+    {
+      "row_key": "lint-style",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Lint & Stil",
+        "en": "Lint & Style"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint",
+        "ruff-check"
+      ],
+      "fe_hooks": [
+        "frontend-eslint"
+      ],
+      "be_hooks": [
+        "ruff-check"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Stil- und Lint-Fehler",
+        "en": "Style and lint errors"
+      }
+    },
+    {
+      "row_key": "be-noqa-guard",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Guardrail",
+        "en": "Guardrail"
+      },
+      "target": "0",
+      "hooks": [
+        "be-noqa-guard"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "be-noqa-guard"
+      ],
+      "family": null,
+      "scope": "backend",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Verbot von Suppressions in BE (ENFORCED_RULES)",
+        "en": "Guardrail"
+      }
+    },
+    {
+      "row_key": "check-init-files",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Namespace",
+        "en": "Namespace"
+      },
+      "target": "0",
+      "hooks": [
+        "check-init-files"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-init-files"
+      ],
+      "family": null,
+      "scope": "backend",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Leere __init__.py – Namespace-Disziplin",
+        "en": "Namespace"
+      }
+    },
+    {
+      "row_key": "types",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Typen",
+        "en": "Types"
+      },
+      "target": {
+        "de": "0 Fehler",
+        "en": "0 errors"
+      },
+      "hooks": [
+        "frontend-tsc",
+        "basedpyright"
+      ],
+      "fe_hooks": [
+        "frontend-tsc"
+      ],
+      "be_hooks": [
+        "basedpyright"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Typfehler",
+        "en": "Type errors"
+      }
+    },
+    {
+      "row_key": "check-interrogate",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Docs",
+        "en": "Docs"
+      },
+      "target": "100%",
+      "hooks": [
+        "check-interrogate"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-interrogate"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Docstring-Coverage BE (interrogate)",
+        "en": "Docs"
+      }
+    },
+    {
+      "row_key": "dead-code",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Dead Code",
+        "en": "Dead Code"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-dead-code",
+        "vulture"
+      ],
+      "fe_hooks": [
+        "check-fe-dead-code"
+      ],
+      "be_hooks": [
+        "vulture"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "ungenutzter Code",
+        "en": "unused code"
+      }
+    },
+    {
+      "row_key": "complexity",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Komplexität",
+        "en": "Complexity"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "check-fe-complexity",
+        "xenon"
+      ],
+      "fe_hooks": [
+        "check-fe-complexity"
+      ],
+      "be_hooks": [
+        "xenon"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "zu komplexe Einheiten",
+        "en": "overly complex units"
+      }
+    },
+    {
+      "row_key": "check-async-blocking",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Async",
+        "en": "Async"
+      },
+      "target": "0",
+      "hooks": [
+        "check-async-blocking"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-async-blocking"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Sync-Blocking-Calls in async def BE (Ruff-ASYNC-Lücke: tempfile-Familie)",
+        "en": "Async"
+      }
+    },
+    {
+      "row_key": "check-infinite-recursion",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Rekursion",
+        "en": "Recursion"
+      },
+      "target": "0",
+      "hooks": [
+        "check-infinite-recursion"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-infinite-recursion"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Unbedingte Selbst-Rekursion in BE (Sonar S2190 – Endlos-Rekursion)",
+        "en": "Recursion"
+      }
+    },
+    {
+      "row_key": "check-semantic-duplicates",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Duplikate",
+        "en": "Duplication"
+      },
+      "target": "0",
+      "hooks": [
+        "check-semantic-duplicates"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-semantic-duplicates"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "BE-semantische Duplikate (Embeddings)",
+        "en": "Duplication"
+      }
+    },
+    {
+      "row_key": "check-token-duplicates",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Duplikate",
+        "en": "Duplication"
+      },
+      "target": "0",
+      "hooks": [
+        "check-token-duplicates"
+      ],
+      "fe_hooks": [
+        "check-token-duplicates"
+      ],
+      "be_hooks": [
+        "check-token-duplicates"
+      ],
+      "family": null,
+      "scope": "source",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Token-/Struktur-Duplikate (jscpd, BE+FE)",
+        "en": "Duplication"
+      }
+    },
+    {
+      "row_key": "frontend-semantic-duplicates",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Duplikate",
+        "en": "Duplication"
+      },
+      "target": "0",
+      "hooks": [
+        "frontend-semantic-duplicates"
+      ],
+      "fe_hooks": [
+        "frontend-semantic-duplicates"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-semantische Duplikate (LanceDB, eigene Metrik)",
+        "en": "Duplication"
+      }
+    },
+    {
+      "row_key": "check-fe-jsdoc",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Docs",
+        "en": "Docs"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-jsdoc"
+      ],
+      "fe_hooks": [
+        "check-fe-jsdoc"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "observing",
+        "observing": true
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE Doc-Block-Qualität (eslint-plugin-jsdoc) – Spiegel BE check-interrogate",
+        "en": "Docs"
+      }
+    },
+    {
+      "row_key": "check-linter-suppressions",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Guardrail",
+        "en": "Guardrail"
+      },
+      "target": "0",
+      "hooks": [
+        "check-linter-suppressions"
+      ],
+      "fe_hooks": [
+        "check-linter-suppressions"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-Suppression-Audit (eslint-disable etc.)",
+        "en": "Guardrail"
+      }
+    },
+    {
+      "row_key": "generate-stories",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Docs",
+        "en": "Docs"
+      },
+      "target": "grün",
+      "hooks": [
+        "generate-stories"
+      ],
+      "fe_hooks": [
+        "generate-stories"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Generiert fehlende FE-Stories",
+        "en": "Docs"
+      }
+    },
+    {
+      "row_key": "storybook-build",
+      "group": "Quality",
+      "subgroup": null,
+      "dimension": {
+        "de": "Build",
+        "en": "Build"
+      },
+      "target": "grün",
+      "hooks": [
+        "storybook-build"
+      ],
+      "fe_hooks": [
+        "storybook-build"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Storybook-Build-Check FE (Generate-Block-Selbst-Validierung)",
+        "en": "Build"
+      }
+    },
+    {
+      "row_key": "llm-edit-guard",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Repo-Schutz",
+        "en": "Repo protection"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "llm-edit-guard"
+      ],
+      "fe_hooks": [
+        "llm-edit-guard"
+      ],
+      "be_hooks": [
+        "llm-edit-guard"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Guardrails, generierte Artefakte",
+        "en": "Guardrails, generated artifacts"
+      }
+    },
+    {
+      "row_key": "check-root-guard",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Repo-Schutz",
+        "en": "Repo protection"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "check-root-guard"
+      ],
+      "fe_hooks": [
+        "check-root-guard"
+      ],
+      "be_hooks": [
+        "check-root-guard"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Guardrails, generierte Artefakte",
+        "en": "Guardrails, generated artifacts"
+      }
+    },
+    {
+      "row_key": "hooks-manifest-drift",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Repo-Schutz",
+        "en": "Repo protection"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "hooks-manifest-drift"
+      ],
+      "fe_hooks": [
+        "hooks-manifest-drift"
+      ],
+      "be_hooks": [
+        "hooks-manifest-drift"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Guardrails, generierte Artefakte",
+        "en": "Guardrails, generated artifacts"
+      }
+    },
+    {
+      "row_key": "trailing-whitespace",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Datei-Hygiene",
+        "en": "File hygiene"
+      },
+      "target": "0",
+      "hooks": [
+        "trailing-whitespace"
+      ],
+      "fe_hooks": [
+        "trailing-whitespace"
+      ],
+      "be_hooks": [
+        "trailing-whitespace"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Whitespace, Final-Newline",
+        "en": "Whitespace, final newline"
+      }
+    },
+    {
+      "row_key": "end-of-file-fixer",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Datei-Hygiene",
+        "en": "File hygiene"
+      },
+      "target": "0",
+      "hooks": [
+        "end-of-file-fixer"
+      ],
+      "fe_hooks": [
+        "end-of-file-fixer"
+      ],
+      "be_hooks": [
+        "end-of-file-fixer"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Whitespace, Final-Newline",
+        "en": "Whitespace, final newline"
+      }
+    },
+    {
+      "row_key": "check-yaml",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Syntax",
+        "en": "Syntax"
+      },
+      "target": "0",
+      "hooks": [
+        "check-yaml"
+      ],
+      "fe_hooks": [
+        "check-yaml"
+      ],
+      "be_hooks": [
+        "check-yaml"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Datei-Syntax",
+        "en": "File syntax"
+      }
+    },
+    {
+      "row_key": "check-json",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Syntax",
+        "en": "Syntax"
+      },
+      "target": "0",
+      "hooks": [
+        "check-json"
+      ],
+      "fe_hooks": [
+        "check-json"
+      ],
+      "be_hooks": [
+        "check-json"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Datei-Syntax",
+        "en": "File syntax"
+      }
+    },
+    {
+      "row_key": "sync-schemas",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Repo-Schutz",
+        "en": "Repo protection"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "sync-schemas"
+      ],
+      "fe_hooks": [
+        "sync-schemas"
+      ],
+      "be_hooks": [
+        "sync-schemas"
+      ],
+      "family": null,
+      "scope": "source",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Guardrails, generierte Artefakte",
+        "en": "Guardrails, generated artifacts"
+      }
+    },
+    {
+      "row_key": "validate-architecture-yaml",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Architektur",
+        "en": "Architecture"
+      },
+      "target": "grün",
+      "hooks": [
+        "validate-architecture-yaml"
+      ],
+      "fe_hooks": [
+        "validate-architecture-yaml"
+      ],
+      "be_hooks": [
+        "validate-architecture-yaml"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Validiert Architektur-YAML (npm validate:architecture)",
+        "en": "Architecture"
+      }
+    },
+    {
+      "row_key": "check-merge-conflict",
+      "group": "Quality",
+      "subgroup": "Hygiene & Guardrails",
+      "dimension": {
+        "de": "Datei-Hygiene",
+        "en": "File hygiene"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "check-merge-conflict"
+      ],
+      "fe_hooks": [
+        "check-merge-conflict"
+      ],
+      "be_hooks": [
+        "check-merge-conflict"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Findet Merge-Konfliktmarker nach gf_end",
+        "en": "Finds merge conflict markers after gf_end"
+      }
+    },
+    {
+      "row_key": "check-repositories-layout",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Struktur",
+        "en": "Structure"
+      },
+      "target": "0",
+      "hooks": [
+        "check-repositories-layout"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-repositories-layout"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Repositories: DB-Adapter direkt, Nicht-DB(Datei)-Adapter unter repositories/file/",
+        "en": "Structure"
+      }
+    },
+    {
+      "row_key": "routes-fe-be",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Routes",
+        "en": "Routes"
+      },
+      "target": "grün",
+      "hooks": [
+        "routes-fe-be"
+      ],
+      "fe_hooks": [
+        "routes-fe-be"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-API-URLs gegen BE-Routen (Cross-Check)",
+        "en": "Routes"
+      }
+    },
+    {
+      "row_key": "routes-fe-fe",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Routes",
+        "en": "Routes"
+      },
+      "target": "grün",
+      "hooks": [
+        "routes-fe-fe"
+      ],
+      "fe_hooks": [
+        "routes-fe-fe"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-Routen-Liveness (stale navigate()/Link)",
+        "en": "Routes"
+      }
+    },
+    {
+      "row_key": "srp",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "SRP",
+        "en": "SRP"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-single-responsibility",
+        "check-single-responsibility"
+      ],
+      "fe_hooks": [
+        "check-fe-single-responsibility"
+      ],
+      "be_hooks": [
+        "check-single-responsibility"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "LCOM4 ≥ 2 · custom Check (Klasse/Modul)",
+        "en": "LCOM4 ≥ 2 · custom check (class/module)"
+      }
+    },
+    {
+      "row_key": "check-module-lcom4",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "SRP",
+        "en": "SRP"
+      },
+      "target": "0",
+      "hooks": [
+        "check-module-lcom4"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-module-lcom4"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Modul-Kohäsion BE (LCOM4, modul-weit) – God-Module finden",
+        "en": "SRP"
+      }
+    },
+    {
+      "row_key": "check-aggregate-boundary",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Grenzen",
+        "en": "Boundaries"
+      },
+      "target": "0",
+      "hooks": [
+        "check-aggregate-boundary"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-aggregate-boundary"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Aggregat-Grenze BE: Repository fasst nur sein eigenes Aggregat an (Fremd-Aggregat → Owner-Kontext/Port)",
+        "en": "Boundaries"
+      }
+    },
+    {
+      "row_key": "god-files",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "God Files",
+        "en": "God Files"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-file-length",
+        "check-file-length"
+      ],
+      "fe_hooks": [
+        "check-fe-file-length"
+      ],
+      "be_hooks": [
+        "check-file-length"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Datei > 500 LOC",
+        "en": "File > 500 LOC"
+      }
+    },
+    {
+      "row_key": "check-dependency-injection",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "DI",
+        "en": "DI"
+      },
+      "target": "0",
+      "hooks": [
+        "check-dependency-injection"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-dependency-injection"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "DI-/harte-Kopplung-Erkennung BE",
+        "en": "DI"
+      }
+    },
+    {
+      "row_key": "check-module-state",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "State",
+        "en": "State"
+      },
+      "target": "0",
+      "hooks": [
+        "check-module-state"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-module-state"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Modul-globale Collaborator-Singletons BE (projekt-eigene Services/Repos)",
+        "en": "State"
+      }
+    },
+    {
+      "row_key": "check-structure",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Struktur",
+        "en": "Structure"
+      },
+      "target": "0",
+      "hooks": [
+        "check-structure"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-structure"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Struktur-/API-Guard: Ordner-Kanon, Datei-/Klassen-Namen, Entity-/Namespace-Kanon, API-Prefix/Tag/Param",
+        "en": "Structure"
+      }
+    },
+    {
+      "row_key": "import-linter",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Modulgrenzen",
+        "en": "Module boundaries"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "import-linter"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "import-linter"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Grenzverletzungen",
+        "en": "Boundary violations"
+      }
+    },
+    {
+      "row_key": "check-service-dto",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Grenzen",
+        "en": "Boundaries"
+      },
+      "target": "0",
+      "hooks": [
+        "check-service-dto"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-service-dto"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Service-Grenze ist DTO/Domain (kein ORM-Modell/Session/Query, kein bare Any – auch unter TYPE_CHECKING)",
+        "en": "Boundaries"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/boundaries",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Boundaries",
+        "en": "Boundaries"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "boundaries/dependencies"
+      ],
+      "be_hooks": [],
+      "family": "boundaries",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Boundaries",
+        "en": "Boundaries"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/file-composition",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Datei-Komposition",
+        "en": "File composition"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "project-structure/file-composition"
+      ],
+      "be_hooks": [],
+      "family": "file-composition",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Datei-Komposition",
+        "en": "File composition"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/folder-structure",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Ordner-Struktur",
+        "en": "Folder structure"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "project-structure/folder-structure"
+      ],
+      "be_hooks": [],
+      "family": "folder-structure",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Ordner-Struktur",
+        "en": "Folder structure"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/forbid-component-props",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Component-Props",
+        "en": "Component props"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "react/forbid-component-props"
+      ],
+      "be_hooks": [],
+      "family": "forbid-component-props",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Component-Props",
+        "en": "Component props"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/forbid-elements",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Element-Verbote",
+        "en": "Forbidden elements"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "react/forbid-elements"
+      ],
+      "be_hooks": [],
+      "family": "forbid-elements",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Element-Verbote",
+        "en": "Forbidden elements"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/naming",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Naming",
+        "en": "Naming"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "check-file/filename-naming-convention",
+        "check-file/folder-naming-convention"
+      ],
+      "be_hooks": [],
+      "family": "naming",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Naming",
+        "en": "Naming"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/no-arbitrary-value",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Keine Arbitrary Values",
+        "en": "No arbitrary values"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "tailwindcss/no-arbitrary-value"
+      ],
+      "be_hooks": [],
+      "family": "no-arbitrary-value",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Keine Arbitrary Values",
+        "en": "No arbitrary values"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/no-component-classname",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Kein className",
+        "en": "No className"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "no-component-classname/no-component-classname"
+      ],
+      "be_hooks": [],
+      "family": "no-component-classname",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Kein className",
+        "en": "No className"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/no-styling-wrapper",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Kein Styling-Wrapper",
+        "en": "No styling wrapper"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "no-styling-wrapper/no-styling-wrapper"
+      ],
+      "be_hooks": [],
+      "family": "no-styling-wrapper",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Kein Styling-Wrapper",
+        "en": "No styling wrapper"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/pages-router-sync",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Pages-Router",
+        "en": "Pages router"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "pages-router-sync/pages-router-sync"
+      ],
+      "be_hooks": [],
+      "family": "pages-router-sync",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Pages-Router",
+        "en": "Pages router"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/react-naming",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "React-Naming",
+        "en": "React naming"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "react/no-multi-comp"
+      ],
+      "be_hooks": [],
+      "family": "react-naming",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "React-Naming",
+        "en": "React naming"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/restricted-imports",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Restricted Imports",
+        "en": "Restricted imports"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "restricted-imports/restricted-imports"
+      ],
+      "be_hooks": [],
+      "family": "restricted-imports",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Restricted Imports",
+        "en": "Restricted imports"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-arch/shared-layer-purity",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Shared-Layer",
+        "en": "Shared layer"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "frontend-eslint-arch"
+      ],
+      "fe_hooks": [
+        "shared-layer-purity/shared-layer-purity"
+      ],
+      "be_hooks": [],
+      "family": "shared-layer-purity",
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Shared-Layer",
+        "en": "Shared layer"
+      }
+    },
+    {
+      "row_key": "frontend-depcruise",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Grenzen",
+        "en": "Boundaries"
+      },
+      "target": "0",
+      "hooks": [
+        "frontend-depcruise"
+      ],
+      "fe_hooks": [
+        "frontend-depcruise"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-Import-Graph – Runtime-Zyklen (dependency-cruiser no-cycles)",
+        "en": "Boundaries"
+      }
+    },
+    {
+      "row_key": "check-fe-barrel-structure",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Struktur",
+        "en": "Structure"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-barrel-structure"
+      ],
+      "fe_hooks": [
+        "check-fe-barrel-structure"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-Barrel-Struktur (index.ts Pflicht/Verbot)",
+        "en": "Structure"
+      }
+    },
+    {
+      "row_key": "check-fe-component-composition",
+      "group": "Architecture",
+      "subgroup": null,
+      "dimension": {
+        "de": "Struktur",
+        "en": "Structure"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-component-composition"
+      ],
+      "fe_hooks": [
+        "check-fe-component-composition"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/src",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "FE-Component-File-Composition (Component-Golden-Rules)",
+        "en": "Structure"
+      }
+    },
+    {
+      "row_key": "detect-private-key",
+      "group": "Security",
+      "subgroup": null,
+      "dimension": {
+        "de": "Secrets",
+        "en": "Secrets"
+      },
+      "target": "0",
+      "hooks": [
+        "detect-private-key"
+      ],
+      "fe_hooks": [
+        "detect-private-key"
+      ],
+      "be_hooks": [
+        "detect-private-key"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Findet eingecheckte Private Keys",
+        "en": "Secrets"
+      }
+    },
+    {
+      "row_key": "secrets",
+      "group": "Security",
+      "subgroup": null,
+      "dimension": {
+        "de": "Secrets",
+        "en": "Secrets"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "gitleaks",
+        "detect-secrets"
+      ],
+      "fe_hooks": [
+        "gitleaks"
+      ],
+      "be_hooks": [
+        "detect-secrets"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "eingecheckte Secrets",
+        "en": "committed secrets"
+      }
+    },
+    {
+      "row_key": "bandit",
+      "group": "Security",
+      "subgroup": null,
+      "dimension": {
+        "de": "SAST",
+        "en": "SAST"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "bandit"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "bandit"
+      ],
+      "family": null,
+      "scope": "backend/app",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "unsichere Muster",
+        "en": "insecure patterns"
+      }
+    },
+    {
+      "row_key": "semgrep",
+      "group": "Security",
+      "subgroup": null,
+      "dimension": {
+        "de": "SAST",
+        "en": "SAST"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "semgrep"
+      ],
+      "fe_hooks": [
+        "semgrep"
+      ],
+      "be_hooks": [
+        "semgrep"
+      ],
+      "family": null,
+      "scope": "source",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "unsichere Muster",
+        "en": "insecure patterns"
+      }
+    },
+    {
+      "row_key": "dependency-audit",
+      "group": "Security",
+      "subgroup": null,
+      "dimension": {
+        "de": "Dependency-Audit",
+        "en": "Dependency audit"
+      },
+      "target": "0 CVEs",
+      "hooks": [
+        "npm-audit",
+        "pip-audit"
+      ],
+      "fe_hooks": [
+        "npm-audit"
+      ],
+      "be_hooks": [
+        "pip-audit"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "verwundbare Dependencies",
+        "en": "vulnerable dependencies"
+      }
+    },
+    {
+      "row_key": "frontend-eslint-test",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Hygiene",
+        "en": "Test hygiene"
+      },
+      "target": "0",
+      "hooks": [
+        "frontend-eslint-test"
+      ],
+      "fe_hooks": [
+        "frontend-eslint-test"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/tests",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "ESLint Test FE (Test-Hygiene testing-library/*) – Spiegel BE check-test-antipatterns/-orphans",
+        "en": "Test hygiene"
+      }
+    },
+    {
+      "row_key": "test-structure",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Struktur",
+        "en": "Test structure"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "check-fe-test-structure",
+        "check-test-structure"
+      ],
+      "fe_hooks": [
+        "check-fe-test-structure"
+      ],
+      "be_hooks": [
+        "check-test-structure"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Tests im falschen Level",
+        "en": "tests in the wrong level"
+      }
+    },
+    {
+      "row_key": "check-fe-unit-no-network",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Isolation",
+        "en": "Test isolation"
+      },
+      "target": "0",
+      "hooks": [
+        "check-fe-unit-no-network"
+      ],
+      "fe_hooks": [
+        "check-fe-unit-no-network"
+      ],
+      "be_hooks": [],
+      "family": null,
+      "scope": "frontend/tests",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "empty",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Netz-Ausführung/-Mock in FE-Unit-Tests (frontend/tests/unit) – Netz = Integration (MSW) – Spiegel BE check-unit-no-db",
+        "en": "Test isolation"
+      }
+    },
+    {
+      "row_key": "test-antipatterns",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Hygiene",
+        "en": "Test hygiene"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "check-fe-test-antipatterns",
+        "check-test-antipatterns"
+      ],
+      "fe_hooks": [
+        "check-fe-test-antipatterns"
+      ],
+      "be_hooks": [
+        "check-test-antipatterns"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Test-Anti-Patterns",
+        "en": "test anti-patterns"
+      }
+    },
+    {
+      "row_key": "test-orphans",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Orphans",
+        "en": "Test orphans"
+      },
+      "target": "0 Findings",
+      "hooks": [
+        "check-fe-test-orphans",
+        "check-test-orphans"
+      ],
+      "fe_hooks": [
+        "check-fe-test-orphans"
+      ],
+      "be_hooks": [
+        "check-test-orphans"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Code ohne Spiegel-Test",
+        "en": "code without mirror test"
+      }
+    },
+    {
+      "row_key": "unit-tests",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Unit",
+        "en": "Unit"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "fe-vitest-unit",
+        "pytest-unit"
+      ],
+      "fe_hooks": [
+        "fe-vitest-unit"
+      ],
+      "be_hooks": [
+        "pytest-unit"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "fehlgeschlagene Tests",
+        "en": "failed tests"
+      }
+    },
+    {
+      "row_key": "integration-tests",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Integration",
+        "en": "Integration"
+      },
+      "target": {
+        "de": "grün",
+        "en": "green"
+      },
+      "hooks": [
+        "fe-vitest-integration",
+        "pytest-integration"
+      ],
+      "fe_hooks": [
+        "fe-vitest-integration"
+      ],
+      "be_hooks": [
+        "pytest-integration"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Schnittstellenfehler",
+        "en": "interface errors"
+      }
+    },
+    {
+      "row_key": "test-guardrails",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Guardrail",
+        "en": "Guardrail"
+      },
+      "target": "grün",
+      "hooks": [
+        "test-guardrails"
+      ],
+      "fe_hooks": [
+        "test-guardrails"
+      ],
+      "be_hooks": [
+        "test-guardrails"
+      ],
+      "family": null,
+      "scope": "repo",
+      "fe": {
+        "status": "green",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Smoke-Tests der Guardrail-Wrapper",
+        "en": "Guardrail"
+      }
+    },
+    {
+      "row_key": "check-api-host-guard",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Netzwerk",
+        "en": "Network"
+      },
+      "target": "0",
+      "hooks": [
+        "check-api-host-guard"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-api-host-guard"
+      ],
+      "family": null,
+      "scope": "backend/tests",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Host-Guard: backend/tests/api spricht nur lokale/allowlistete Hosts an (kein Prod-URL/Drittanbieter)",
+        "en": "Network"
+      }
+    },
+    {
+      "row_key": "check-api-route-coverage",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Coverage",
+        "en": "Test coverage"
+      },
+      "target": "0",
+      "hooks": [
+        "check-api-route-coverage"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-api-route-coverage"
+      ],
+      "family": null,
+      "scope": "backend",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Route-Coverage: jede Prod-Spec-Operation in genau einem API_ROUTES-Eintrag deklariert; Drift = Fund",
+        "en": "Test coverage"
+      }
+    },
+    {
+      "row_key": "check-api-contract",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Contract",
+        "en": "Test contract"
+      },
+      "target": "0",
+      "hooks": [
+        "check-api-contract"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-api-contract"
+      ],
+      "family": null,
+      "scope": "backend/tests",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Contract-Guard: jede Response schema-konform + nur dokumentierte Status-Codes (0 Verstöße)",
+        "en": "Test contract"
+      }
+    },
+    {
+      "row_key": "check-unit-no-db",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Test-Isolation",
+        "en": "Test isolation"
+      },
+      "target": "0",
+      "hooks": [
+        "check-unit-no-db"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "check-unit-no-db"
+      ],
+      "family": null,
+      "scope": "backend/tests",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "DB-Zugriff/-Infrastruktur in Unit-Tests (backend/tests/unit) – Persistenz = Integration",
+        "en": "Test isolation"
+      }
+    },
+    {
+      "row_key": "pytest-api",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Tests",
+        "en": "Tests"
+      },
+      "target": "grün",
+      "hooks": [
+        "pytest-api"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "pytest-api"
+      ],
+      "family": null,
+      "scope": "backend/tests",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "BE-API-E2E (tests/api) am G3-Promotion-Punkt",
+        "en": "Tests"
+      }
+    },
+    {
+      "row_key": "pytest-unit-mutation",
+      "group": "Tests",
+      "subgroup": null,
+      "dimension": {
+        "de": "Mutation",
+        "en": "Mutation"
+      },
+      "target": "grün",
+      "hooks": [
+        "pytest-unit-mutation"
+      ],
+      "fe_hooks": [],
+      "be_hooks": [
+        "pytest-unit-mutation"
+      ],
+      "family": null,
+      "scope": "backend",
+      "fe": {
+        "status": "empty",
+        "observing": false
+      },
+      "be": {
+        "status": "green",
+        "observing": false
+      },
+      "explanation": {
+        "de": "Mutation-Score je Katalog-Modul (Cosmic-Ray) unter Modul-Schwelle (kein org-weites Gate)",
+        "en": "Mutation"
+      }
+    }
+  ],
+  "completeness": {
+    "expected_hooks": 75,
+    "recorded_hooks": 75,
+    "represented_hooks": 75,
+    "missing": [],
+    "duplicates": [],
+    "split_hooks": {
+      "frontend-eslint-arch": 13
+    },
+    "row_count": 74
+  },
+  "footer": {
+    "measurement_basis": "frontend/src + backend/app",
+    "commit_short": "a9ee400"
+  }
+}

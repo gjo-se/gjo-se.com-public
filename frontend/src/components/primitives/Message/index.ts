@@ -1,0 +1,18 @@
+export { default } from './Message';
+export { default as MessageAvatar } from './MessageAvatar';
+export { default as MessageContent } from './MessageContent';
+export { default as MessageFooter } from './MessageFooter';
+export { default as MessageGroup } from './MessageGroup';
+export { default as MessageHeader } from './MessageHeader';
+export type { MessageProps } from './Message.interface';
+export type { MessageVariants } from './Message.variants';
+export type { MessageAvatarProps } from './MessageAvatar.interface';
+export type { MessageAvatarVariants } from './MessageAvatar.variants';
+export type { MessageContentProps } from './MessageContent.interface';
+export type { MessageContentVariants } from './MessageContent.variants';
+export type { MessageFooterProps } from './MessageFooter.interface';
+export type { MessageFooterVariants } from './MessageFooter.variants';
+export type { MessageGroupProps } from './MessageGroup.interface';
+export type { MessageGroupVariants } from './MessageGroup.variants';
+export type { MessageHeaderProps } from './MessageHeader.interface';
+export type { MessageHeaderVariants } from './MessageHeader.variants';

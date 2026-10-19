@@ -1,0 +1,507 @@
+[project]
+name = "gjo-se-backend"
+version = "0.1.1"
+description = "gjo-se.com – FastAPI Backend"
+requires-python = "==3.12.*"
+dependencies = [
+    "aiofiles>=25.1.0",
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.4",
+    "asyncpg>=0.31.0",
+    "fastapi[standard]>=0.135.1",
+    "fastapi-mail>=1.5.0",
+    "greenlet>=3.3.2",
+    "bcrypt>=4.0.0",
+    "langgraph>=1.1.6",
+    "prometheus_client>=0.21",
+    "pydantic-settings>=2.13.1",
+    "pydantic[email]>=2.12.5",
+    "pyjwt>=2.9.0",
+    "python-multipart>=0.0.9",
+    # SQLAlchemy 2.1 ändert das Typing (Select-Invarianz, Row-Indexing) → 43 Findings
+    # im enforced basedpyright-Gate. Pin <2.1, bis das App-Typing an 2.1 adaptiert ist.
+    "sqlalchemy>=2.0.48,<2.1",
+    "langchain>=0.3.0",
+    "langchain-openai>=0.3.0",
+    "langchain-anthropic>=0.3.0",
+    "langchain-deepseek>=0.1.0",
+    "langchain-ollama>=0.2.0",
+    "langchain-mistralai>=0.2.0",
+    "langchain-google-genai>=2.0.0",
+    "langchain-cohere>=0.6.0",
+    "langsmith>=0.9.0",
+    "tenacity>=9.0.0",
+    "langchain-mcp-adapters>=0.2.2",
+    "slowapi>=0.1.9",
+    "structlog>=24.0.0",
+    "httpx>=0.28.1",
+    "numpy>=1.26.0",
+    "playwright>=1.58.0",
+    "markdownify>=0.14.1",
+    "apscheduler>=3.11.0",
+    "langgraph-checkpoint-postgres>=3.1.0",
+    "langfuse>=3.0.0",
+    "psycopg-binary>=3.3.4",
+    "restate-sdk>=1.0.0",
+    "weasyprint>=69.0",
+    "mjml-python>=1.4.1",
+    "vtracer>=0.6.15",
+    "boto3>=1.43.62",
+    "ruamel.yaml>=0.18.0",
+    "pydeps>=3.0.7",
+    "pillow>=12.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "bandit[toml]>=1.7.9",
+    "basedpyright>=1.0.0",
+    "interrogate>=1.7.0",
+    "pip-audit>=2.7.3",
+    "pre-commit>=4.5.1",
+    "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=6.0.0",
+    "pytest-randomly>=3.15.0",
+    "pytest-rerunfailures>=15.0",
+    "pytest-xdist>=3.8.0",
+    "respx>=0.22.0",
+    "syrupy>=4.7",
+    "ruff>=0.15.4,<0.16",
+    "time-machine>=2.15",
+    "freezegun>=1.5",
+    "sentence-transformers>=3.0.0",
+    "tree-sitter-languages>=1.10.2",
+    "tree-sitter>=0.21.0,<0.22",
+    "testcontainers[postgres]>=4.0.0",
+    "vulture>=2.11",
+    "import-linter>=2.1.0",
+    "xenon>=0.9.1",
+    "pystructurizr>=0.1.3",
+    # File-based LanceDB – Dev-Tooling/pre-commit only (no longer an app datastore)
+    "lancedb>=0.4.0",
+    "pyarrow>=20.0.0",
+    "schemathesis>=4.28.0",
+    "hypothesis>=6",
+    "semgrep>=1.178.0",
+    "cosmic-ray>=8.7.0",
+    "pytest-timeout>=2.4.0",
+]
+
+# ---------------------------------------------------------------------------
+# uv – Resolution Overrides
+# ---------------------------------------------------------------------------
+[tool.uv]
+# `httpwatcher` (abandoned since 2018, transitive via the dev-only `pystructurizr`)
+# pins `tornado (<5)` – i.e. exactly the 4.5.3 line carrying 20 published CVEs with
+# fixes up to 6.5.9. `pystructurizr` is used here only for DSL generation
+# (`pystructurizr.dsl`); its `httpwatcher` live-reload server is never invoked, so a
+# modern tornado is safe. The override lifts the stale `<5` cap to a patched line.
+override-dependencies = [
+    "tornado>=6.5.9",
+    # CVE-2026-59951 (GHSA-84m7-p3x7-pcfv): semgrep exact-pins mcp==1.29.0, but
+    # the advisory is fixed in 1.30.0. The backend only uses the SDK client-side
+    # (langchain-mcp-adapters, <2.0.0), so 1.30.x is the compatible fix line.
+    "mcp>=1.30.0,<2.0.0",
+]
+
+# ---------------------------------------------------------------------------
+# Ruff – Linting & Formatting
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+# Single cache home (gitignored `backend/.cache`) instead of a stray
+# `.ruff_cache` at every invocation CWD (repo root vs backend/).
+cache-dir = ".cache/ruff"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["A", "ASYNC", "B", "BLE", "C4", "DTZ", "E", "F", "FIX", "G", "I", "ISC", "LOG", "PERF", "PIE", "PL", "RET", "RUF", "SIM", "UP"]
+ignore = [
+    "B008",    # FastAPI Depends() in default arguments is idiomatic
+    "RUF001", "RUF002", "RUF003", # Ambiguous Unicode characters (e.g. en-dash and umlauts)
+    "PLC0415", # imports outside top-level are used to prevent circular dependencies
+    "PLR0914", # too many local variables – tech debt, tracked per ticket
+    "PLR0911", # too many return statements – tech debt, tracked per ticket
+    "RUF029",  # async without await is often required for framework signatures (FastAPI Depends)
+    "PLC1901", # empty string truthiness check `== ""` preferred for readability
+    "PLC2701", # private name imports are needed for advanced frameworks
+]
+
+[tool.ruff.lint.flake8-builtins]
+# `input` is a hard API contract: LangFuse evaluators are invoked with an
+# `input=` keyword argument, and `MCPToolProtocol.ainvoke` mirrors LangChain's
+# `Runnable.ainvoke(input, ...)` signature. Renaming would break those contracts,
+# so the rule's own allowlist exempts exactly this name (no `# noqa`/`ignore`).
+builtins-ignorelist = ["input"]
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI API-layer: DI-Pattern erlaubt viele Parameter + no-self-use
+"app/api/**/*.py" = [
+    "PLR6301", # no-self-use – DI pattern in route handlers
+    "PLR0913", # too many arguments – FastAPI Depends chains
+    "PLR0917", # too many positional arguments – FastAPI Depends chains
+]
+# Core-layer: Service-Klassen mit DI erlauben no-self-use
+"app/core/**/*.py" = [
+    "PLR6301", # no-self-use – DI pattern in service classes
+]
+# Domain + app layer: repository/service functions take db + all record fields as params
+# (no ORM-style dataclass wrapping yet – tech debt, tracked for Increment 11)
+"app/**/*.py" = [
+    "PLR0913", # too many arguments – systemic in repo/service layer
+    "PLR0917", # too many positional arguments – same rationale
+]
+"tests/**/*.py" = [
+    "PLR2004", # Magic values in assertions is fine for tests
+    "PLR6301", # no-self-use in test classes is fine
+    "PLR0913", # too many arguments – test helper functions
+    "PLR0917", # too many positional arguments – test helpers
+    "PLC0415", # import outside top-level is used to test importability
+    "RUF012",  # Mutable class attributes are used as pytest fixtures / singletons
+    "RUF069",  # Unreliable floating point equality is fine in tests where inputs are fixed
+    "PLC2701", # Private name imports often needed to test internal helpers
+    "SIM117",  # Nested with statements are clearer in some tests
+    "PLW0603", # Global statement update used in pytest singletons
+]
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Single cache home (gitignored `backend/.cache`) instead of a stray
+# `.pytest_cache` at every invocation CWD (repo root vs backend/).
+cache_dir = ".cache/pytest"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+# Tests must share the session-scoped event loop with the (session-scoped) DB
+# fixtures: asyncpg connections are bound to the loop that created them, so
+# mixing a session fixture loop with per-test function loops breaks the
+# Postgres testcontainers engines ("attached to a different loop").
+asyncio_default_test_loop_scope = "session"
+# Timeout standard (F5): a hanging async integration/E2E test must abort instead
+# of blocking the whole G3 suite. `thread` method (not the `signal` default) is
+# required because the suite runs under `-n auto` (xdist); the signal-based
+# method is unreliable in worker processes. Per-test outliers opt out via
+# `@pytest.mark.timeout(<seconds>)`.
+timeout = 300
+timeout_method = "thread"
+# `--dist loadgroup` is required so the `xdist_group` marker is honoured:
+# without an explicit `--dist` pytest-xdist resolves `-n` to `--dist load`,
+# which ignores `xdist_group` entirely (making the marker silently
+# ineffective). See `integration-e2e-kanon` → "Parallelitäts-Kanon".
+addopts = "-n auto --dist loadgroup"
+markers = [
+    "unit: Unit tests (no DB)",
+    "integration: Integration tests (DB or multi-layer)",
+    "slow: Slow tests (LLM, API, Scraper)",
+    "api: API-E2E (in-process ASGI über öffentliche Routen; tests/api/)",
+    "xdist_group(name): Group tests for xdist serial execution",
+    "quarantine: Flaky-Tests in Quarantäne (läuft, blockiert nicht, wird gemessen)",
+]
+
+# ---------------------------------------------------------------------------
+# coverage – xdist-parallel Coverage Aggregation
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+parallel = true
+concurrency = ["thread", "greenlet"]
+source = ["app"]
+data_file = ".coverage_data/.coverage"
+
+[tool.coverage.report]
+show_missing = true
+
+# ---------------------------------------------------------------------------
+# Vulture – Dead Code Detection
+# ---------------------------------------------------------------------------
+[tool.vulture]
+exclude = ["alembic/", ".venv/", "venv/"]
+paths = ["app"]
+min_confidence = 80
+sort_by_size = true
+ignore_names = [
+    "usage_logs",
+    "price_snapshot_for_model",
+    "setup_cost_suggestion",
+    "setup_chat_suggestions",
+    "inactive_model"
+]
+
+# ---------------------------------------------------------------------------
+# import-linter – Architecture Boundaries
+# ---------------------------------------------------------------------------
+[tool.importlinter]
+root_package = "app"
+# Reine Typ-Importe (`if TYPE_CHECKING:`) gehören nicht in den Laufzeit-Graph:
+# schnellerer Lauf und keine falsch-positiven Kanten. (Architektur-SOLL: be-architecture.)
+exclude_type_checking_imports = true
+# Der Service-DB-Contract verbietet Drittanbieter-Module (`sqlalchemy` etc.) ->
+# externe Pakete müssen im Import-Graph bekannt sein (import-linter-Anforderung).
+include_external_packages = true
+
+# §5-Import-Matrix (sota-modular-reuse-soll.md): Abhängigkeiten zeigen nach innen.
+# SOLL in zwei orthogonalen Achsen (skill("be-architecture")):
+#   Achse 1 – Module: `shared` kennt keine Domäne; Kontexte kennen sich nicht.
+#   Achse 2 – Layer: Imports innerhalb eines Kontexts fließen nach innen.
+# - Composition Root `app.api` verdrahtet alles -> bewusst nicht eingeschränkt.
+# - `Kontext -> shared` bleibt erlaubt (kein Contract verbietet es).
+
+# --- Achse 1: Modul-/Kontext-Grenzen ---------------------------------------
+
+# Plattform (shared) kennt keine Domäne: kein shared -> Bounded-Context-Import.
+[[tool.importlinter.contracts]]
+name = "Shared/Platform does not import a bounded context"
+type = "forbidden"
+as_packages = true
+source_modules = [
+    "app.shared",
+]
+forbidden_modules = [
+    "app.application",
+    "app.contact",
+    "app.content_manager",
+    "app.crm",
+    "app.fbf",
+    "app.identity",
+    "app.portfolio",
+    "app.viscera",
+]
+
+# Bounded Contexts kennen sich nicht: kein Kontext importiert einen anderen.
+# (Beide dürfen `app.shared` nutzen.)
+[[tool.importlinter.contracts]]
+name = "Bounded contexts are independent of each other"
+type = "independence"
+modules = [
+    "app.application",
+    "app.contact",
+    "app.content_manager",
+    "app.crm",
+    "app.fbf",
+    "app.identity",
+    "app.portfolio",
+    "app.viscera",
+]
+
+# --- Achse 2: Layer innerhalb eines Kontexts --------------------------------
+
+# Imports fließen nach innen (Adapter -> Application -> Domain). Kanonische Ordnung
+# (high -> low, be-architecture-layers):
+#   router/dependencies/jobs/activities (Entry, gleichrangig, gegenseitiger Import
+#     erlaubt) > services > repositories/infrastructure > domain > schemas
+#       > models/exceptions/constants (Blatt).
+# Optional geklammerte Layer werden nur geprüft, wo sie existieren; nicht-optionale
+# Layer müssen in JEDEM Container vorhanden sein (sonst Setup-Fehler). Deshalb sind
+# alle bislang nicht flächendeckenden Kanon-Layer optional: `services` fehlt in
+# `viscera` (dort `service.py`), `models`/`repositories`/`dependencies` fehlen in
+# `viscera`, `repositories` fehlt in contact/content_manager, die neuen Layer
+# (`jobs`/`activities`/`infrastructure`/`domain`/`constants`) existieren nur punktuell.
+# `viscera` (flach) und `fbf` (Extra-Ordner) sind jetzt Container. Bis Inc 3 haben
+# beide noch keine bzw. wenige Kanon-Ordner -> der `layers`-Contract liefert dort
+# vorerst keine/kaum Kanten (observing, erwartet); der `independence`-Contract
+# (Achse 1) greift für sie bereits.
+[[tool.importlinter.contracts]]
+name = "Layers within each bounded context"
+type = "layers"
+layers = [
+    "router : (dependencies) : (jobs) : (activities)",
+    "(services)",
+    "(repositories) : (infrastructure)",
+    "(domain)",
+    "schemas",
+    "(models) : (exceptions) : (constants)",
+]
+containers = [
+    "app.application",
+    "app.contact",
+    "app.content_manager",
+    "app.crm",
+    "app.fbf",
+    "app.identity",
+    "app.portfolio",
+    "app.viscera",
+]
+
+# --- Achse 2: Service-DB-Verschärfung (strict, enforced via #4156) ----------
+# `services` orchestrieren und bauen KEINE DB-Queries/ORM/Session
+# (skill("import-linter"): K1 Query-Bau, K2 ORM-Model, K3 eigene Session).
+# Repo-weit 0 Findings (services_sql_imports.py → 0/0/0), kein Baseline-Wert.
+# K1: Services importieren `sqlalchemy` nicht mehr direkt; `AsyncSession` kommt
+# aus dem framework-neutralen Re-Export `app.shared.db_access.session_types`
+# (import-linter kollabiert externe Pakete auf den Node `sqlalchemy`, daher ist
+# dieses Re-Export der einzig saubere Weg, den Session-Typ freizustellen).
+[[tool.importlinter.contracts]]
+name = "Services do not build DB queries/ORM"
+type = "forbidden"
+as_packages = true
+# Nur DIREKTE Imports prüfen: der Service darf sein Repository nutzen (das
+# intern `sqlalchemy` importiert), aber nicht selbst Query/ORM/Session bauen.
+allow_indirect_imports = true
+source_modules = [
+    "app.application.services",
+    "app.contact.services",
+    "app.content_manager.services",
+    "app.crm.services",
+    "app.fbf.services",
+    "app.identity.services",
+    "app.portfolio.services",
+    "app.viscera.services",
+    "app.shared.credential_store.services",
+    "app.shared.incident_response.services",
+    "app.shared.job_scheduler.services",
+    "app.shared.llm_gateway.services",
+    "app.shared.mcp.services",
+    "app.shared.notification.services",
+    "app.shared.pdf.services",
+    "app.shared.status.services",
+    "app.shared.storage.services",
+    "app.shared.tagging.services",
+    "app.shared.technology_catalog.services",
+]
+forbidden_modules = [
+    "sqlalchemy",
+    "app.application.models",
+    "app.contact.models",
+    "app.content_manager.models",
+    "app.crm.models",
+    "app.fbf.models",
+    "app.identity.models",
+    "app.portfolio.models",
+    "app.shared.credential_store.models",
+    "app.shared.job_scheduler.models",
+    "app.shared.llm_gateway.models",
+    "app.shared.mcp.models",
+    "app.shared.notification.models",
+    "app.shared.status.models",
+    "app.shared.tagging.models",
+    "app.shared.technology_catalog.models",
+    "app.shared.db_access.session",
+]
+
+# ---------------------------------------------------------------------------
+# basedpyright – Type Checking
+# ---------------------------------------------------------------------------
+[tool.pyright]
+pythonVersion = "3.12"
+# Policy: KEIN unbehandelter Mittelweg (keine sichtbaren Warnings). Jede Regel ist
+# entweder "error" (muss gefixt werden → rot) oder "none" (bewusst nicht behandelt
+# → kein Rauschen). basedpyright-Default ist "recommended" (alle Regeln an).
+typeCheckingMode = "recommended"
+# SQLAlchemy bidirectionale back_populates-Beziehungen erzeugen by-design Zyklen
+# (TYPE_CHECKING-guards verhindern Runtime-Cycles – kein echter Bug)
+reportImportCycles = "none"
+# FastAPI Depends() in default-Parameter ist intentional (idiomatic FastAPI pattern)
+reportCallInDefaultInitializer = "none"
+# Intentional Any: cast(Any, ...) und _ctor: Any für untypisierte Drittanbieter-Libs
+reportAny = "none"
+reportExplicitAny = "none"
+# Rate-Limiter-Decorator (slowapi) hat keine Stubs
+reportUntypedFunctionDecorator = "none"
+# Slowapi-Routen brauchen `request: Request` im Parameter – intentional unused
+reportUnusedParameter = "none"
+# SQLAlchemy __tablename__ / __table_args__ und Pydantic model_config sind
+# bekannte Klassenattribut-Muster – ClassVar-Annotation hier nicht zwingend nötig
+reportUnannotatedClassAttribute = "none"
+# JSON-Parsing aus API-Responses liefert by-design Any/Unknown-Typen;
+# hier wären überall TypedDicts nötig – out of scope für diesen Sprint
+reportUnknownVariableType = "none"
+reportUnknownMemberType = "none"
+reportUnknownLambdaType = "none"
+reportUnknownArgumentType = "none"
+# apscheduler und langgraph haben keine vollständigen Type-Stubs
+reportMissingTypeStubs = "none"
+# Implicit string concatenation in log-messages ist idiomatisches Python
+reportImplicitStringConcatenation = "none"
+
+# ── Policy: bewusst NICHT behandelt (kein Warning-Rauschen) ──────────────────
+# Verworfene Rückgabewerte sind intentional (bewusstes Ignorieren von Ergebnissen)
+reportUnusedCallResult = "none"
+# `_`-Privatsphäre wird über Modulgrenzen hinweg nicht erzwungen (Paket-intern üblich)
+reportPrivateUsage = "none"
+# Framework-registrierte Callbacks (z. B. SQLAlchemy @event.listens_for) werden von
+# basedpyright nicht als "genutzt" erkannt → Fehlalarm-Klasse, daher nicht erzwingen.
+reportUnusedFunction = "none"
+
+# ── Policy: behandeln (error → rot, wird gefixt) ─────────────────────────────
+reportMissingParameterType = "error"
+reportUnknownParameterType = "error"
+reportUnnecessaryComparison = "error"
+reportUnnecessaryIsInstance = "error"
+reportUnreachable = "error"
+reportUnusedImport = "error"
+reportImplicitOverride = "error"
+reportDeprecated = "error"
+
+# ---------------------------------------------------------------------------
+# interrogate – Docstring Coverage
+# ---------------------------------------------------------------------------
+[tool.interrogate]
+fail-under = 100
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic-method = true
+ignore-nested-functions = true
+ignore-property-decorators = true
+verbose = 0
+exclude = ["tests/", "alembic/"]
+
+
+# ---------------------------------------------------------------------------
+# embed-check – Semantic Duplicate Detection via LanceDB
+# ---------------------------------------------------------------------------
+[tool.embed-check]
+threshold = 0.85
+# Similarity-Kanon (#3873): Embeddings L2-normalisieren und mit Cosine suchen,
+# damit BE und FE dieselbe Metrik nutzen (similarity = 1 - cosine_distance).
+normalize_embeddings = true
+distance_metric = "cosine"
+model = "all-MiniLM-L6-v2"
+db_path = "dedup/lancedb"
+# Trigger/Freshness (#3874): der `check` vergleicht die Branch-Differenz gegen
+# `base_ref` (Merge-Base) statt den Working Tree, damit Commits auf Epic-/
+# Ticket-Branches gesehen werden. `index_marker` dateit den Build-Zeitpunkt
+# (buildTime/rows/model) ab; `auto_index` rebuildet bei stale Index automatisch.
+base_ref = "origin/main"
+index_marker = "dedup/index.buildinfo.json"
+auto_index = true
+# Fester Tuningground für den Filter-Loop (#3875): der Side-by-Side-Diff-Report
+# landet unter `<report_dir>/dry-semantic-diff-report.md` (gitignored).
+report_dir = "dedup"
+exclude_dirs = ["tests", "alembic", "__pycache__"]
+# Beide Wurzeln werden in die eine gemeinsame DB indiziert; die scope-Spalte
+# trennt BE- (backend) von FE-Rows (frontend). Der BE-Check vergleicht nur
+# scope=backend, FE-Rows erzeugen keine BE-Findings.
+source_roots = ["backend/app", "frontend/src"]
+scopes = { "backend/app" = "backend", "frontend/src" = "frontend" }
+# Mindest-Zeilen je FE-Chunk (Spiegel der FE-MIN_CHUNK_LINES).
+min_chunk_lines = 5
+# Obergrenze je TS-Chunk (#10g-4): größere Funktionen/Components werden rekursiv
+# in begrenzte Sub-Blöcke zerlegt, damit das Embedding-Modell (MiniLM, ~256
+# Word-Pieces) nicht nur einen abgeschnittenen Prefix einer ganzen Page sieht.
+# Spiegel des FE-Defaults in extract_typescript.DEFAULT_MAX_CHUNK_LINES.
+max_chunk_lines = 60
+# Ignore-Patterns aus den FE-IGNORE_PATTERNS (Stories/Tests/generierte Schemas).
+ignores = [
+    "**/*.stories.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/types.generated.ts",
+    "**/schemasGenerated.ts",
+]
+
+# Filter-Schalter (SSOT) – false = aus, true = Paare entfernen, "only" = nur
+# die von diesem Filter entfernten Paare zeigen. Die Filter-Logik wird in
+# scripts/pre-commit/backend/dedup_filters.py registriert.
+[tool.embed-check.filters]
+definition-usage = true
+schema-model-mirror = true
+thin-delegate-template = true
+port-adapter-mirror = true
+cross-layer-delegate-mirror = true
+provider-consumer-delegate = true

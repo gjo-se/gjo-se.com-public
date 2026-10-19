@@ -1,0 +1,15 @@
+{
+  "notFound": {
+    "title": "Page not found",
+    "description": "The requested address does not exist or has been moved – usually because of a typo in the URL or an outdated link.",
+    "buttonLabel": "Back to home"
+  },
+  "routeError": {
+    "notFoundTitle": "Page not found",
+    "statusTitle": "Error {status}",
+    "genericTitle": "Something went wrong",
+    "genericDescription": "The page could not be loaded. Trying again usually works.",
+    "retryLabel": "Try again",
+    "homeLabel": "Back to home"
+  }
+}

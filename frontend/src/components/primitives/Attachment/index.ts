@@ -1,0 +1,11 @@
+export { default } from './Attachment';
+export { default as AttachmentGroup } from './AttachmentGroup';
+export { default as AttachmentMedia } from './AttachmentMedia';
+export { default as AttachmentContent } from './AttachmentContent';
+export { default as AttachmentTitle } from './AttachmentTitle';
+export { default as AttachmentDescription } from './AttachmentDescription';
+export { default as AttachmentActions } from './AttachmentActions';
+export { default as AttachmentAction } from './AttachmentAction';
+export { default as AttachmentTrigger } from './AttachmentTrigger';
+export type { AttachmentProps } from './Attachment.interface';
+export type { AttachmentVariants } from './Attachment.variants';

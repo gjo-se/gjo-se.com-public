@@ -1,0 +1,12 @@
+export { default } from './InputOTP';
+export { default as InputOTPGroup } from './InputOTPGroup';
+export { default as InputOTPSeparator } from './InputOTPSeparator';
+export { default as InputOTPSlot } from './InputOTPSlot';
+export type { InputOTPProps } from './InputOTP.interface';
+export type { InputOTPVariants } from './InputOTP.variants';
+export type { InputOTPGroupProps } from './InputOTPGroup.interface';
+export type { InputOTPGroupVariants } from './InputOTPGroup.variants';
+export type { InputOTPSeparatorProps } from './InputOTPSeparator.interface';
+export type { InputOTPSeparatorVariants } from './InputOTPSeparator.variants';
+export type { InputOTPSlotProps } from './InputOTPSlot.interface';
+export type { InputOTPSlotVariants } from './InputOTPSlot.variants';

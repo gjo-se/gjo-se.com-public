@@ -1,0 +1,15 @@
+{
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die angeforderte Adresse existiert nicht oder wurde verschoben – meist durch einen Tippfehler in der URL oder einen veralteten Link.",
+    "buttonLabel": "Zur Startseite"
+  },
+  "routeError": {
+    "notFoundTitle": "Seite nicht gefunden",
+    "statusTitle": "Fehler {status}",
+    "genericTitle": "Etwas ist schiefgelaufen",
+    "genericDescription": "Die Seite konnte nicht geladen werden. Ein erneuter Versuch führt meist zum Ziel.",
+    "retryLabel": "Erneut versuchen",
+    "homeLabel": "Zur Startseite"
+  }
+}

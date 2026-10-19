@@ -1,0 +1,12 @@
+export { default } from './Dialog';
+export { default as DialogTrigger } from './DialogTrigger';
+export { default as DialogPortal } from './DialogPortal';
+export { default as DialogOverlay } from './DialogOverlay';
+export { default as DialogContent } from './DialogContent';
+export { default as DialogHeader } from './DialogHeader';
+export { default as DialogFooter } from './DialogFooter';
+export { default as DialogTitle } from './DialogTitle';
+export { default as DialogDescription } from './DialogDescription';
+export { default as DialogClose } from './DialogClose';
+export type { DialogProps } from './Dialog.interface';
+export type { DialogVariants } from './Dialog.variants';
